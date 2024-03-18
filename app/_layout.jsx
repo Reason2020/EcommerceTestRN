@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React from 'react'
 import { Stack } from 'expo-router'
+import UserContextProvider from '../contexts/UserContext'
 
 const RootLayout = () => {
   return (
-    <Stack 
+    <UserContextProvider>
+      <Stack 
         initialRouteName='index'
         screenOptions={{
             headerShown: false
@@ -12,7 +14,8 @@ const RootLayout = () => {
         <Stack.Screen name='index' />
         <Stack.Screen name='(tabs)' />
         <Stack.Screen name='products/[id]' />
-    </Stack>
+      </Stack>
+    </UserContextProvider>
   )
 }
 

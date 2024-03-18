@@ -22,6 +22,7 @@ const PopularItemsSection = ({ items }) => {
       </View>
       {/* product card ui */}
       <FlatList 
+        showsHorizontalScrollIndicator={false}
         horizontal
         data={items}
         renderItem={({ item }) => <ProductCard item={item} />}

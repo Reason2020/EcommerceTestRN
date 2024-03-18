@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View, Dimensions, StatusBar, Pressable } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, Dimensions, StatusBar, Pressable, Platform } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { getProductById } from '../../api/products'
@@ -52,6 +52,7 @@ export default ProductDetails
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: Platform.OS === 'android' ? 20 : 0,
     paddingHorizontal: 10,
     flex: 1
   },

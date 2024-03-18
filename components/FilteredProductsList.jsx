@@ -4,15 +4,22 @@ import ProductCard from './ProductCard'
 
 const FilteredProductsList = ({ items }) => {
   return (
-    <FlatList 
+    <View style={styles.container}>
+      <FlatList 
+        showsHorizontalScrollIndicator={false}
         horizontal
         data={items}
         renderItem={({ item }) => <ProductCard item={item}/>}
         keyExtractor={item => item.id}
-    />
+      />
+    </View>
   )
 }
 
 export default FilteredProductsList
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: 20
+  }
+})

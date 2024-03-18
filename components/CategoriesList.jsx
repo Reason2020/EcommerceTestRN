@@ -6,6 +6,7 @@ const CategoriesList = ({ items }) => {
   return (
     <View style={styles.container}>
         <FlatList 
+            showsHorizontalScrollIndicator={false}
             data={items}
             renderItem={({ item }) => <CategoryItem item={item} />}
             horizontal
