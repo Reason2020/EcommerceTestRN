@@ -2,12 +2,13 @@ import { ActivityIndicator, Platform, ScrollView, StyleSheet, StatusBar, View } 
 import TopSection from '../../components/TopSection';
 import PopularItemsSection from '../../components/PopularItemsSection';
 import { useContext, useEffect, useState } from 'react';
-import { getAllCategoriesList, getAllProducts, getPopularProducts } from '../../api/products';
+import { getAllCategoriesList, getAllProducts, getFilteredProducts, getPopularProducts } from '../../api/products';
 import CategoriesList from '../../components/CategoriesList';
 import FilteredProductsList from '../../components/FilteredProductsList';
 import { colors } from '../../constants/colors';
 import { isLightModeOn } from '../../utils/isLightModeOn';
 import { ThemeContext } from '../../contexts/ThemeContext';
+import { SelectedCategoryContext } from '../../contexts/selectedCategoryContext';
 
 export default function App() {
   const [ popularProducts, setPopularProducts ] = useState([])
@@ -15,8 +16,9 @@ export default function App() {
   const [ filteredProducts, setFilteredProducts ] = useState([])
   const [ isLoading, setIsLoading ] = useState(false)
 
-  const { currentTheme } = useContext(ThemeContext)
+  const { selectedCategory } = useContext(SelectedCategoryContext)
 
+  const { currentTheme } = useContext(ThemeContext)
   const lightMode = isLightModeOn(currentTheme)
 
   useEffect(() => {
@@ -36,10 +38,10 @@ export default function App() {
   //TODO: refetch data according to selected category
   useEffect(() => {
     (async () => {
-      const filteredProductsResponse = await getAllProducts()
+      const filteredProductsResponse = await getFilteredProducts(selectedCategory)
       setFilteredProducts(filteredProductsResponse)
     })()
-  }, [])
+  }, [selectedCategory])
 
   if (isLoading) return (
     <View style={styles.indicatorContainer}>

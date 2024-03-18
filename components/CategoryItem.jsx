@@ -3,10 +3,13 @@ import React, { useContext } from 'react'
 import { colors } from '../constants/colors'
 import { isLightModeOn } from '../utils/isLightModeOn'
 import { ThemeContext } from '../contexts/ThemeContext'
+import { SelectedCategoryContext } from '../contexts/selectedCategoryContext'
 
 const CategoryItem = ({ item }) => {
     const { currentTheme } = useContext(ThemeContext)
     const lightMode = isLightModeOn(currentTheme)
+
+    const { setSelectedCategory, selectedCategory } = useContext(SelectedCategoryContext)
 
     const formatCategoryText = (categoryText) => {
         //split category text with multiple words into separate words array
@@ -26,9 +29,9 @@ const CategoryItem = ({ item }) => {
     <TouchableOpacity 
         style={styles.container}
         onPress={() => {
-            console.log('Hello category item')
+            setSelectedCategory(item)
         }}>
-      <Text style={[styles.categoryText, { color: lightMode ? colors.black : colors.plainWhite }]}>{formatCategoryText(item)}</Text>
+      <Text style={[styles.categoryText, { color: selectedCategory === item ? colors.red : (lightMode ? colors.black : colors.plainWhite) }]}>{formatCategoryText(item)}</Text>
     </TouchableOpacity>
   )
 }

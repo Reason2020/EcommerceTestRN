@@ -1,10 +1,11 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import React from 'react'
 import CategoryItem from './CategoryItem'
 
 const CategoriesList = ({ items }) => {
   return (
     <View style={styles.container}>
+        <CategoryItem item={'All'} />
         <FlatList 
             showsHorizontalScrollIndicator={false}
             data={items}
@@ -19,6 +20,7 @@ export default CategoriesList
 
 const styles = StyleSheet.create({
     container: {
-        marginVertical: 10
+        marginVertical: 10,
+        flexDirection: 'row'
     }
 })

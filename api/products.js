@@ -7,6 +7,11 @@ export const getAllProducts = async () => {
     return response.data
 }
 
+export const getFilteredProducts = async (category) => {
+    const response = await axios.get(category === 'All' ? `${BASE_API_URL}/products` : `${BASE_API_URL}/products/category/${category}`)
+    return response.data
+}
+
 export const getPopularProducts = async () => {
     const response = await axios.get(`${BASE_API_URL}/products?limit=5`)
     return response.data
