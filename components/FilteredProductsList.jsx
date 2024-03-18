@@ -20,6 +20,6 @@ export default FilteredProductsList
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 20
+    paddingBottom: 70
   }
 })

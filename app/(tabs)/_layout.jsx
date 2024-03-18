@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native'
 import React, { useContext } from 'react'
-import { Tabs } from 'expo-router'
+import { Tabs, useBottomTabBarHeight } from 'expo-router'
 import { Entypo, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '../../constants/colors';
 import { ThemeContext } from '../../contexts/ThemeContext';
