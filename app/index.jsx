@@ -33,6 +33,8 @@ const Login = () => {
       setUsername(usernameText)
       setPassword(passwordText)
       setIsLoading(false)
+      setUsernameText('')
+      setPasswordText('')
       router.navigate('/productListings')
     }, 3000)
   }

@@ -62,6 +62,5 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingVertical: Platform.OS === 'android' ? 20 : 0,
-    // marginBottom: 50,
   },
 });
