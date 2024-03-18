@@ -34,6 +34,11 @@
     npm start
     ```
 
+## Author
+
+> Reason Shrestha
+
+
 ## Demo
 
 ### Login Screen
