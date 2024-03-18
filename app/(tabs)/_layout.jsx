@@ -1,21 +1,25 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
+import { Entypo, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { colors } from '../../constants/colors';
 
 const TabsLayout = () => {
   return (
     <Tabs screenOptions={{
-        headerShown: false
+        headerShown: false,
+        tabBarActiveTintColor: colors.blue,
+        tabBarShowLabel: false
     }} >
         <Tabs.Screen 
             name='productListings'
             options={{
-                title: 'Product Listings'
+                tabBarIcon: ({ focused }) => focused ? <Entypo name='home' size={24} color={colors.black} /> : <MaterialCommunityIcons name='home-outline' size={24} color={colors.black} />,
             }} />
         <Tabs.Screen 
             name='userDetails'
             options={{
-                title: 'User Details',
+                tabBarIcon: ({ focused }) => focused ? <FontAwesome name='user-circle' size={24} color={colors.black} /> : <FontAwesome name='user-circle-o' size={24} color={colors.black} />
             }} />
     </Tabs>
   )
