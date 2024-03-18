@@ -3,7 +3,7 @@ import { createContext, useState } from "react"
 export const SelectedCategoryContext = createContext()
 
 const SelectedCategoryContextProvider = ({ children }) => {
-    const [ selectedCategory, setSelectedCategory ] = useState()
+    const [ selectedCategory, setSelectedCategory ] = useState('All')
 
     return (
         <SelectedCategoryContext.Provider value={{ selectedCategory, setSelectedCategory }}>

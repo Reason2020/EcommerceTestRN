@@ -56,8 +56,9 @@ const Login = () => {
           <Text style={[styles.inputLabel, { color: lightMode ? colors.black : colors.plainWhite }]}>Username</Text>
           <TextInput 
             placeholder='user123'
-            style={[styles.inputField, { backgroundColor: lightMode ? colors.black : colors.plainWhite }]}
+            style={[styles.inputField, { backgroundColor: lightMode ? colors.black : colors.plainWhite, color: lightMode ? colors.plainWhite : colors.black }]}
             value={usernameText}
+            placeholderTextColor={lightMode ? colors.plainWhite : colors.black}
             onChangeText={(newUsername) => setUsernameText(newUsername)}
           />
         </View>
@@ -65,10 +66,11 @@ const Login = () => {
           <Text style={[styles.inputLabel, { color: lightMode ? colors.black : colors.plainWhite }]}>Password</Text>
           <TextInput 
             placeholder='Your password'
-            style={[styles.inputField, { backgroundColor: lightMode ? colors.black : colors.plainWhite }]}
+            style={[styles.inputField, { backgroundColor: lightMode ? colors.black : colors.plainWhite, color: lightMode ? colors.plainWhite : colors.black }]}
             secureTextEntry={true}
             value={passwordText}
             onChangeText={(newPassword) => setPasswordText(newPassword)}
+            placeholderTextColor={lightMode ? colors.plainWhite : colors.black}
           />
         </View>
         <Pressable
