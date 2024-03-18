@@ -1,8 +1,13 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { colors } from '../constants/colors'
+import { isLightModeOn } from '../utils/isLightModeOn'
+import { ThemeContext } from '../contexts/ThemeContext'
 
 const CategoryItem = ({ item }) => {
+    const { currentTheme } = useContext(ThemeContext)
+    const lightMode = isLightModeOn(currentTheme)
+
     const formatCategoryText = (categoryText) => {
         //split category text with multiple words into separate words array
         //capitalize first letter
@@ -23,7 +28,7 @@ const CategoryItem = ({ item }) => {
         onPress={() => {
             console.log('Hello category item')
         }}>
-      <Text style={styles.categoryText}>{formatCategoryText(item)}</Text>
+      <Text style={[styles.categoryText, { color: lightMode ? colors.black : colors.plainWhite }]}>{formatCategoryText(item)}</Text>
     </TouchableOpacity>
   )
 }

@@ -1,17 +1,23 @@
 import { ActivityIndicator, Platform, ScrollView, StyleSheet, StatusBar, View } from 'react-native';
 import TopSection from '../../components/TopSection';
 import PopularItemsSection from '../../components/PopularItemsSection';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getAllCategoriesList, getAllProducts, getPopularProducts } from '../../api/products';
 import CategoriesList from '../../components/CategoriesList';
 import FilteredProductsList from '../../components/FilteredProductsList';
 import { colors } from '../../constants/colors';
+import { isLightModeOn } from '../../utils/isLightModeOn';
+import { ThemeContext } from '../../contexts/ThemeContext';
 
 export default function App() {
   const [ popularProducts, setPopularProducts ] = useState([])
   const [ categoriesList, setCategoriesList ] = useState([])
   const [ filteredProducts, setFilteredProducts ] = useState([])
   const [ isLoading, setIsLoading ] = useState(false)
+
+  const { currentTheme } = useContext(ThemeContext)
+
+  const lightMode = isLightModeOn(currentTheme)
 
   useEffect(() => {
     (async () => {
@@ -42,7 +48,7 @@ export default function App() {
   ) 
   
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, { backgroundColor: lightMode ? colors.plainWhite : colors.black }]}>
       <StatusBar backgroundColor={colors.black} barStyle='light-content' />
       <TopSection />
       <PopularItemsSection items={popularProducts} />

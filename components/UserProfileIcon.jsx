@@ -2,14 +2,19 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native'
 import React, { useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
 import { colors } from '../constants/colors'
+import { ThemeContext } from '../contexts/ThemeContext'
+import { isLightModeOn } from '../utils/isLightModeOn'
 
 const UserProfileIcon = () => {
     const { username } = useContext(UserContext)
 
+    const { currentTheme } = useContext(ThemeContext)
+    const lightMode = isLightModeOn(currentTheme)
+
   return (
     <View style={styles.container}>
-        <View style={styles.profileContainer}>
-          <Text style={styles.userCharacterText}>{username[0].toUpperCase()}</Text>
+        <View style={[styles.profileContainer, { backgroundColor: lightMode ? colors.black : colors.plainWhite }]}>
+          <Text style={[styles.userCharacterText, { color: lightMode ? colors.plainWhite : colors.black }]}>{username[0].toUpperCase()}</Text>
         </View>
     </View>
   )

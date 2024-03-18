@@ -5,14 +5,19 @@ import UserProfileIcon from '../../components/UserProfileIcon'
 import { UserContext } from '../../contexts/UserContext'
 import { colors } from '../../constants/colors'
 import ThemeChanger from '../../components/ThemeChanger'
+import { isLightModeOn } from '../../utils/isLightModeOn'
+import { ThemeContext } from '../../contexts/ThemeContext'
 
 const UserDetails = () => {
   //user profile(first character of username)✅
   //username✅
-  //theme
-  //logout
+  //theme✅
+  //logout✅
 
   const { username, setUsername, setPassword } = useContext(UserContext)
+
+  const { currentTheme } = useContext(ThemeContext)
+  const lightMode = isLightModeOn(currentTheme)
 
   //logout handler
   const logoutHandler = () => {
@@ -25,18 +30,18 @@ const UserDetails = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: lightMode ? colors.plainWhite : colors.black }]}>
       <UserProfileIcon />
       <View style={styles.card}>
-        <Text style={styles.usernameText}>{username}</Text>
+        <Text style={[styles.usernameText, { color: lightMode ? colors.black : colors.plainWhite }]}>{username}</Text>
       </View>
       <View style={styles.card}>
         <ThemeChanger />
       </View>
       <Pressable
         onPress={logoutHandler}
-        style={styles.button}>
-        <Text style={styles.buttonText}>Logout</Text>
+        style={[styles.button, { backgroundColor: lightMode ? colors.black : colors.plainWhite }]}>
+        <Text style={[styles.buttonText, { color: lightMode ? colors.plainWhite : colors.black }]}>Logout</Text>
       </Pressable>
     </View>
   )

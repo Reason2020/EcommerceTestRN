@@ -3,25 +3,26 @@ import React, { useContext } from 'react'
 import { colors } from '../constants/colors'
 import { ThemeContext } from '../contexts/ThemeContext'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { isLightModeOn } from '../utils/isLightModeOn';
 
 const ThemeChanger = () => {
     const { currentTheme, setCurrentTheme } = useContext(ThemeContext)
 
-    const isLightModeOn = currentTheme === 'light'
+    const lightMode = isLightModeOn(currentTheme)
 
   return (
     <Pressable
-        onPress={() => setCurrentTheme(isLightModeOn ? 'dark' : 'light')}  
+        onPress={() => setCurrentTheme(lightMode ? 'dark' : 'light')}  
         style={[
             styles.container, 
             { 
-                backgroundColor: isLightModeOn ? colors.black : colors.plainWhite,
-                justifyContent: isLightModeOn ? 'flex-start' : 'flex-end' 
+                backgroundColor: lightMode ? colors.black : colors.plainWhite,
+                justifyContent: lightMode ? 'flex-start' : 'flex-end' 
             }
         ]}>
       <View
-        style={[styles.themeIconContainer, { backgroundColor: isLightModeOn ? colors.plainWhite : colors.black }]}>
-        <MaterialCommunityIcons name={ isLightModeOn ? 'white-balance-sunny' : 'moon-waning-crescent' } size={24} color={ isLightModeOn ? colors.star : colors.blue } />
+        style={[styles.themeIconContainer, { backgroundColor: lightMode ? colors.plainWhite : colors.black }]}>
+        <MaterialCommunityIcons name={ lightMode ? 'white-balance-sunny' : 'moon-waning-crescent' } size={24} color={ lightMode ? colors.star : colors.blue } />
       </View>
     </Pressable>
   )

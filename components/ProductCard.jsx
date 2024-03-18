@@ -1,12 +1,17 @@
 import { Image, StyleSheet, Text, View, Dimensions, Pressable, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { AntDesign, FontAwesome } from '@expo/vector-icons'
-import { colors } from '../constants/colors';
+import { colors } from '../constants/colors'
 import { router } from 'expo-router'
-import renderStarsRating from '../utils/renderStarsRating';
+import renderStarsRating from '../utils/renderStarsRating'
+import { isLightModeOn } from '../utils/isLightModeOn'
+import { ThemeContext } from '../contexts/ThemeContext'
 
 const ProductCard = ({ item }) => {
     const [ isFavorited, setIsFavorited ] = useState(false)
+
+    const { currentTheme } = useContext(ThemeContext)
+    const lightMode = isLightModeOn(currentTheme)
 
     const { height, width } = Dimensions.get('screen');
 
@@ -26,7 +31,7 @@ const ProductCard = ({ item }) => {
         <View style={styles.ratingContainer}>
             {renderStarsRating(item.rating.rate)}
         </View>
-        <Text numberOfLines={1} style={[styles.productTitle, styles.productText]}>{item.title}</Text>
+        <Text numberOfLines={1} style={[styles.productTitle, styles.productText, { color: lightMode ? colors.black : colors.plainWhite }]}>{item.title}</Text>
         <Text style={[styles.productPrice, styles.productText]}>${item.price}</Text>
         <TouchableOpacity 
             onPress={() => setIsFavorited(!isFavorited)} 
@@ -55,9 +60,6 @@ const styles = StyleSheet.create({
     productText: {
         fontSize: 16,
         fontWeight: '600',
-    },
-    productTitle: {
-        color: colors.black
     },
     productPrice: {
         color: colors.blue

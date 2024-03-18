@@ -1,23 +1,19 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'expo-router'
 import { colors } from '../constants/colors'
 import ProductCard from './ProductCard'
-
-const DUMMYDATA = [
-    1,
-    2,
-    3,
-    4,
-    5
-]
+import { isLightModeOn } from '../utils/isLightModeOn'
+import { ThemeContext } from '../contexts/ThemeContext'
 
 const PopularItemsSection = ({ items }) => {
-    console.log('Items: ',items)
+  const { currentTheme } = useContext(ThemeContext)
+  const lightMode = isLightModeOn(currentTheme)
+  
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.titleText}>Popular Items</Text>
+        <Text style={[styles.titleText, { color: lightMode ? colors.black : colors.plainWhite }]}>Popular Items</Text>
         <Link style={styles.linkText} href={'/productListings'}>See All</Link>
       </View>
       {/* product card ui */}
@@ -46,8 +42,7 @@ const styles = StyleSheet.create({
     },
     titleText: {
         fontSize: 18,
-        fontWeight: 'bold',
-        color: colors.black
+        fontWeight: 'bold'
     },
     linkText: {
         color: colors.blue

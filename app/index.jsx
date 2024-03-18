@@ -4,6 +4,8 @@ import { StatusBar } from 'expo-status-bar'
 import { Link, router } from 'expo-router'
 import { colors } from '../constants/colors'
 import { UserContext } from '../contexts/UserContext'
+import { ThemeContext } from '../contexts/ThemeContext'
+import { isLightModeOn } from '../utils/isLightModeOn'
 
 const Login = () => {
   const [ usernameText, setUsernameText ] = useState('')
@@ -13,6 +15,8 @@ const Login = () => {
 
   const { setUsername, setPassword } = useContext(UserContext)
 
+  const { currentTheme } = useContext(ThemeContext)
+  const lightMode = isLightModeOn(currentTheme)
 
   //dummy login procedure
   const loginHandler = () => {
@@ -33,6 +37,7 @@ const Login = () => {
       setUsername(usernameText)
       setPassword(passwordText)
       setIsLoading(false)
+      //clear out the fields
       setUsernameText('')
       setPasswordText('')
       router.navigate('/productListings')
@@ -40,27 +45,27 @@ const Login = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: lightMode ? colors.plainWhite : colors.black }]}>
       <StatusBar barStyle='light-content' backgroundColor={colors.black} />
       <View style={styles.formContainer}>
         <View style={styles.formTitleContainer}>
-          <Text style={styles.primaryFormTitle}>Hello, Welcome To MyCommerce!👋</Text>
-          <Text style={styles.secondaryFormTitle}>You've been missed!</Text>
+          <Text style={[styles.primaryFormTitle, { color: lightMode ? colors.black : colors.plainWhite }]}>Hello, Welcome To MyCommerce!👋</Text>
+          <Text style={[styles.secondaryFormTitle, { color: lightMode ? colors.black : colors.plainWhite }]}>You've been missed!</Text>
         </View>
         <View style={styles.inputSection}>
-          <Text style={styles.inputLabel}>Username</Text>
+          <Text style={[styles.inputLabel, { color: lightMode ? colors.black : colors.plainWhite }]}>Username</Text>
           <TextInput 
             placeholder='user123'
-            style={styles.inputField}
+            style={[styles.inputField, { backgroundColor: lightMode ? colors.black : colors.plainWhite }]}
             value={usernameText}
             onChangeText={(newUsername) => setUsernameText(newUsername)}
           />
         </View>
         <View style={styles.inputSection}>
-          <Text style={styles.inputLabel}>Password</Text>
+          <Text style={[styles.inputLabel, { color: lightMode ? colors.black : colors.plainWhite }]}>Password</Text>
           <TextInput 
             placeholder='Your password'
-            style={styles.inputField}
+            style={[styles.inputField, { backgroundColor: lightMode ? colors.black : colors.plainWhite }]}
             secureTextEntry={true}
             value={passwordText}
             onChangeText={(newPassword) => setPasswordText(newPassword)}
@@ -68,9 +73,9 @@ const Login = () => {
         </View>
         <Pressable
           onPress={loginHandler} 
-          style={styles.button}>
-            {isLoading && <ActivityIndicator size='large' color={colors.plainWhite} />}
-          <Text style={styles.buttonText}>Login</Text>
+          style={[styles.button, { backgroundColor: lightMode ? colors.black : colors.plainWhite }]}>
+            {isLoading && <ActivityIndicator size='large' color={lightMode ? colors.plainWhite : colors.black} />}
+          <Text style={[styles.buttonText, { color: lightMode ? colors.plainWhite : colors.black }]}>Login</Text>
         </Pressable>
         {errorText ? <Text style={styles.errorText}>{errorText}</Text> : null}
       </View>   
@@ -92,12 +97,10 @@ const styles = StyleSheet.create({
   },
   formTitleContainer: {},
   primaryFormTitle: {
-    color: colors.black,
     fontSize: 18,
     fontWeight: '600'
   },
   secondaryFormTitle: {
-    color: colors.black,
     fontSize: 15,
     fontWeight: '400'
   },
@@ -105,26 +108,22 @@ const styles = StyleSheet.create({
 
   },
   inputLabel: {
-    color: colors.black,
     fontSize: 16,
     fontWeight: '500'
   },
   inputField: {
-    borderWidth: 1,
-    borderColor: colors.black,
     padding: 10,
     borderRadius: 10
   },
   button: {
-    backgroundColor: colors.black,
     padding: 10,
     borderRadius: 10,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginVertical: 10
   },
   buttonText: {
-    color: colors.plainWhite,
     fontSize: 16,
     fontWeight: '600'
   },
