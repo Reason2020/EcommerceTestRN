@@ -34,4 +34,8 @@
     npm start
     ```
 
+## Demo
 
+### Login Screen
+
+![Login Screen]('https://github.com/Reason2020/EcommerceTestRN/blob/main/screenshots/pic7.jpg')
