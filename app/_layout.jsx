@@ -11,6 +11,7 @@ const RootLayout = () => {
         }} >
         <Stack.Screen name='index' />
         <Stack.Screen name='(tabs)' />
+        <Stack.Screen name='products/[id]' />
     </Stack>
   )
 }

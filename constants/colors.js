@@ -5,5 +5,6 @@ export const colors = {
     black: '#353c4c',
     whitish: '#a0a4ac',
     red: '#ff002e',
-    blue: '#0e91ff'
+    blue: '#0e91ff',
+    star: '#ffbc4d'
 }
