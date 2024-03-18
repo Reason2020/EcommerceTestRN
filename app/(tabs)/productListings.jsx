@@ -15,6 +15,7 @@ export default function App() {
   const [ categoriesList, setCategoriesList ] = useState([])
   const [ filteredProducts, setFilteredProducts ] = useState([])
   const [ isLoading, setIsLoading ] = useState(false)
+  const [ errorText, setErrorText ] = useState('')
 
   const { selectedCategory } = useContext(SelectedCategoryContext)
 
@@ -26,6 +27,11 @@ export default function App() {
       setIsLoading(true)
       const popularProductsResponse = await getPopularProducts()
       const categoriesListResponse = await getAllCategoriesList()
+
+      if (!popularProductsResponse || !categoriesListResponse) {
+        setErrorText('Failed to fetch products')
+        return
+      }
 
       setPopularProducts(popularProductsResponse)
       setCategoriesList(categoriesListResponse)
@@ -39,6 +45,12 @@ export default function App() {
   useEffect(() => {
     (async () => {
       const filteredProductsResponse = await getFilteredProducts(selectedCategory)
+      
+      if (!filteredProductsResponse) {
+        setErrorText('Failed to fetch products')
+        return
+      }
+
       setFilteredProducts(filteredProductsResponse)
     })()
   }, [selectedCategory])
@@ -48,6 +60,10 @@ export default function App() {
       <ActivityIndicator size='large' color={colors.black} />
     </View>
   ) 
+
+  if (errorText) return (
+    <Text style={styles.errorText} >{errorText}</Text>
+  )
   
   return (
     <ScrollView style={[styles.container, { backgroundColor: lightMode ? colors.plainWhite : colors.black }]}>
@@ -71,4 +87,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingVertical: Platform.OS === 'android' ? 20 : 0,
   },
+  errorText: {
+    color: colors.red,
+    fontSize: 20,
+    fontWeight: '700'
+  }
 });
