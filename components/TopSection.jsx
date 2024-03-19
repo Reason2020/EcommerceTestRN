@@ -1,9 +1,14 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
-import React from 'react'
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useContext } from 'react'
 import { Feather } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
+import { CartContext } from '../contexts/CartContext';
 
 const TopSection = () => {
+    const { cartItems } = useContext(CartContext)
+
+    console.log(cartItems)
+
   return (
     <View style={styles.container}>
         <View style={styles.iconizedTextInput}>
@@ -14,9 +19,10 @@ const TopSection = () => {
             />
             <Feather name="search" size={24} color={colors.black} />
         </View>
-        <View style={styles.cartContainer}>
+        <Pressable style={styles.cartContainer}>
             <Feather name='shopping-bag' size={24} color={colors.black} />
-        </View>
+            <Text style={styles.cartItemCount}>{cartItems.length === 0 ? '' : cartItems.length}</Text>
+        </Pressable>
     </View>
   )
 }
@@ -48,5 +54,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
         borderRadius: 22
+    },
+    cartItemCount: {
+        position: 'absolute',
+        top: 2,
+        right: 2,
+        color: colors.red
     }
 })

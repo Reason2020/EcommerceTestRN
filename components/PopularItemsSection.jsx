@@ -14,15 +14,14 @@ const PopularItemsSection = ({ items }) => {
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={[styles.titleText, { color: lightMode ? colors.black : colors.plainWhite }]}>Popular Items</Text>
-        <Link style={styles.linkText} href={'/productListings'}>See All</Link>
       </View>
       {/* product card ui */}
       <FlatList 
         showsHorizontalScrollIndicator={false}
         horizontal
         data={items}
-        renderItem={({ item }) => <ProductCard item={item} />}
-        keyExtractor={item => item.id}
+        renderItem={({ item, index }) => <ProductCard item={item} />}
+        keyExtractor={item => item.id.toString()}
       />
     </View>
   )

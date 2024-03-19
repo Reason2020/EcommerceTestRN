@@ -1,4 +1,4 @@
-import { Platform, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Platform, Pressable, StatusBar, StyleSheet, Text, View } from 'react-native'
 import React, { useContext } from 'react'
 import { Link, router } from 'expo-router'
 import UserProfileIcon from '../../components/UserProfileIcon'
@@ -31,6 +31,7 @@ const UserDetails = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: lightMode ? colors.plainWhite : colors.black }]}>
+      <StatusBar backgroundColor={lightMode ? colors.plainWhite : colors.black} barStyle={lightMode ? 'dark-content' : 'light-content'} />
       <UserProfileIcon />
       <View style={styles.card}>
         <Text style={[styles.usernameText, { color: lightMode ? colors.black : colors.plainWhite }]}>{username}</Text>
@@ -52,7 +53,7 @@ export default UserDetails
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50,
+    paddingTop: StatusBar.currentHeight,
     paddingHorizontal: 10,
     gap: 20
   },

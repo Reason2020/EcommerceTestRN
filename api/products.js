@@ -20,6 +20,15 @@ export const getFilteredProducts = async (category) => {
     }
 }
 
+export const getProductsInDescendingOrder = async () => {
+    try {
+        const response = await axios.get(`${BASE_API_URL}/products?sort=desc`)
+        return response.data
+    } catch(err) {
+        return []
+    }
+}
+
 export const getPopularProducts = async () => {
     try {
         const response = await axios.get(`${BASE_API_URL}/products?limit=5`)

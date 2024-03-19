@@ -29,9 +29,9 @@ const ProductCard = ({ item }) => {
             }]}
         />
         <View style={styles.ratingContainer}>
-            {renderStarsRating(item.rating.rate)}
+            {renderStarsRating(item.rating.rate).map((star, index) => <View key={index}>{star}</View>)}
         </View>
-        <Text numberOfLines={1} style={[styles.productTitle, styles.productText, { color: lightMode ? colors.black : colors.plainWhite }]}>{item.title}</Text>
+        <Text numberOfLines={1} style={[styles.productTitle, { color: lightMode ? colors.black : colors.plainWhite }]}>{item.title}</Text>
         <Text style={[styles.productPrice, styles.productText]}>${item.price}</Text>
         <TouchableOpacity 
             onPress={() => setIsFavorited(!isFavorited)} 

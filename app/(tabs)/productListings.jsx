@@ -1,19 +1,21 @@
-import { ActivityIndicator, Platform, ScrollView, StyleSheet, StatusBar, View } from 'react-native';
+import { ActivityIndicator, Platform, ScrollView, StyleSheet, StatusBar, View, Dimensions } from 'react-native';
 import TopSection from '../../components/TopSection';
 import PopularItemsSection from '../../components/PopularItemsSection';
 import { useContext, useEffect, useState } from 'react';
-import { getAllCategoriesList, getAllProducts, getFilteredProducts, getPopularProducts } from '../../api/products';
+import { getAllCategoriesList, getAllProducts, getFilteredProducts, getPopularProducts, getProductsInDescendingOrder } from '../../api/products';
 import CategoriesList from '../../components/CategoriesList';
 import FilteredProductsList from '../../components/FilteredProductsList';
 import { colors } from '../../constants/colors';
 import { isLightModeOn } from '../../utils/isLightModeOn';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { SelectedCategoryContext } from '../../contexts/selectedCategoryContext';
+import OtherItemsList from '../../components/OtherItemsList';
 
 export default function App() {
   const [ popularProducts, setPopularProducts ] = useState([])
   const [ categoriesList, setCategoriesList ] = useState([])
   const [ filteredProducts, setFilteredProducts ] = useState([])
+  const [ otherProducts, setOtherProducts ] = useState([])
   const [ isLoading, setIsLoading ] = useState(false)
   const [ errorText, setErrorText ] = useState('')
 
@@ -27,6 +29,7 @@ export default function App() {
       setIsLoading(true)
       const popularProductsResponse = await getPopularProducts()
       const categoriesListResponse = await getAllCategoriesList()
+      const otherProductsResponse = await getProductsInDescendingOrder()
 
       if (!popularProductsResponse || !categoriesListResponse) {
         setErrorText('Failed to fetch products')
@@ -35,6 +38,7 @@ export default function App() {
 
       setPopularProducts(popularProductsResponse)
       setCategoriesList(categoriesListResponse)
+      setOtherProducts(otherProductsResponse)
 
       setIsLoading(false)
     })()
@@ -67,11 +71,14 @@ export default function App() {
   
   return (
     <ScrollView style={[styles.container, { backgroundColor: lightMode ? colors.plainWhite : colors.black }]}>
-      <StatusBar backgroundColor={colors.black} barStyle='light-content' />
-      <TopSection />
-      <PopularItemsSection items={popularProducts} />
-      <CategoriesList items={categoriesList} />
-      <FilteredProductsList items={filteredProducts} />
+      <StatusBar backgroundColor={lightMode ? colors.plainWhite : colors.black} barStyle={ lightMode ? 'dark-content' : 'light-content' } />
+      <View style={styles.wrapper}>
+        <TopSection />
+        <PopularItemsSection items={popularProducts} />
+        <CategoriesList items={categoriesList} />
+        <FilteredProductsList items={filteredProducts} />
+        <OtherItemsList items={otherProducts} />
+      </View>
     </ScrollView>
   );
 }
@@ -85,7 +92,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingVertical: Platform.OS === 'android' ? 20 : 0,
+    paddingVertical: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
+  wrapper: {
+    paddingBottom: Dimensions.get('screen').height * 0.1
   },
   errorText: {
     color: colors.red,

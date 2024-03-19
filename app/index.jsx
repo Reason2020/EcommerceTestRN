@@ -46,7 +46,7 @@ const Login = () => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: lightMode ? colors.plainWhite : colors.black }]}>
-      <StatusBar barStyle='light-content' backgroundColor={colors.black} />
+      <StatusBar backgroundColor={lightMode ? colors.plainWhite : colors.black} barStyle={lightMode ? 'dark-content' : 'light-content'} />
       <View style={styles.formContainer}>
         <View style={styles.formTitleContainer}>
           <Text style={[styles.primaryFormTitle, { color: lightMode ? colors.black : colors.plainWhite }]}>Hello, Welcome To MyCommerce!👋</Text>

@@ -1,16 +1,23 @@
 import { ScrollView, StyleSheet, Text, View, Dimensions, StatusBar, Pressable, Platform } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { getProductById } from '../../api/products'
-
+import { ThemeContext } from '../../contexts/ThemeContext'
 import { colors } from '../../constants/colors';
 import renderStarsRating from '../../utils/renderStarsRating';
 import ProductDetailsImageSection from '../../components/ProductDetailsImageSection';
+import { isLightModeOn } from '../../utils/isLightModeOn'
+import { CartContext } from '../../contexts/CartContext'
 
 const ProductDetails = () => {
   const [ viewedProduct, setViewedProduct ] = useState({})
   const { id } = useLocalSearchParams()
   const { height, width } = Dimensions.get('screen')
+
+  const { currentTheme } = useContext(ThemeContext)
+  const lightMode = isLightModeOn(currentTheme)
+
+  const { cartItems, setCartItems } = useContext(CartContext)
 
   useEffect(() => {
     (async () => {
@@ -20,29 +27,35 @@ const ProductDetails = () => {
     })()
   }, [])
 
+  //add to cart logic
+  const addToCart = () => {
+    const newCartItems = [ ...cartItems, viewedProduct ]
+    setCartItems(newCartItems)
+  }
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: lightMode ? colors.plainWhite : colors.black }]}>
       <ScrollView>
-        <StatusBar />
+      <StatusBar backgroundColor={lightMode ? colors.plainWhite : colors.black} barStyle={lightMode ? 'dark-content' : 'light-content'} />
         <ProductDetailsImageSection viewedProduct={viewedProduct} />
         <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>{viewedProduct?.title}</Text>
+            <Text style={[styles.titleText, { color: lightMode ? colors.black : colors.plainWhite }]}>{viewedProduct?.title}</Text>
             <View style={styles.priceAndRatingContainer}>
               <Text style={styles.priceText}>${viewedProduct?.price}</Text>
               <View style={styles.ratingContainer}>
-                {renderStarsRating(viewedProduct?.rating?.rate)}
+                {renderStarsRating(viewedProduct?.rating?.rate).map((star, index) => <View key={index}>{star}</View>)}
               </View>
             </View>
         </View>
         <View style={styles.descriptionContainer}>
-            <Text style={styles.descriptionTitle}>Description</Text>
-            <Text style={styles.descriptionText}>{viewedProduct?.description}</Text>
+            <Text style={[styles.descriptionTitle, { color: lightMode ? colors.black : colors.plainWhite }]}>Description</Text>
+            <Text style={[styles.descriptionText, { color: lightMode ? colors.black : colors.plainWhite }]}>{viewedProduct?.description}</Text>
         </View>
       </ScrollView>
       <Pressable
-        onPress={() => console.log('Add to cart logic')} 
-        style={[styles.button, { width: width * 0.9 }]}>
-        <Text style={styles.buttonText}>Add To Cart</Text>
+        onPress={addToCart} 
+        style={[styles.button, { width: width * 0.9, backgroundColor: lightMode ? colors.black : colors.plainWhite }]}>
+        <Text style={[styles.buttonText, { color: lightMode ? colors.plainWhite : colors.black }]}>Add To Cart</Text>
       </Pressable>
     </View>
   )
@@ -52,7 +65,7 @@ export default ProductDetails
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Platform.OS === 'android' ? 20 : 0,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     paddingHorizontal: 10,
     flex: 1
   },
@@ -66,8 +79,7 @@ const styles = StyleSheet.create({
   titleText: {
     flex: 1,
     fontSize: 20,
-    fontWeight: '700',
-    color: colors.black
+    fontWeight: '700'
   },
   priceAndRatingContainer: {
     alignItems: 'flex-end'
@@ -86,23 +98,17 @@ const styles = StyleSheet.create({
   descriptionTitle: {
     fontSize: 19,
     fontWeight: '500',
-    color: colors.black,
   },
   descriptionText: {
     fontSize: 16,
-    fontWeight: '400',
-    color: colors.black
+    fontWeight: '400'
   },
   button: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.black,
     padding: 10,
     borderRadius: 25,
     marginBottom: 10
-  },
-  buttonText: {
-    color: colors.plainWhite
   }
 })

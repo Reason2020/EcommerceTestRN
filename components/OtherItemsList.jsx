@@ -2,24 +2,26 @@ import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import ProductCard from './ProductCard'
 
-const FilteredProductsList = ({ items }) => {
+const OtherItemsList = ({ items }) => {
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Other Items You Might Like</Text>
       <FlatList 
-        showsHorizontalScrollIndicator={false}
         horizontal
+        showsHorizontalScrollIndicator={false}
         data={items}
-        renderItem={({ item }) => <ProductCard key={item.id} item={item}/>}
+        renderItem={({ item }) => <ProductCard key={item.id} item={item} />}
         keyExtractor={item => item.id}
       />
     </View>
   )
 }
 
-export default FilteredProductsList
+export default OtherItemsList
 
 const styles = StyleSheet.create({
-  container: {
-    marginBottom: 20
-  }
+    title: {
+        fontSize: 18,
+        fontWeight: 'bold'
+    }
 })
