@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import { CartContext } from '../contexts/CartContext';
 
-const TopSection = () => {
+const TopSection = ({ setModalVisible }) => {
     const { cartItems } = useContext(CartContext)
 
     console.log(cartItems)
@@ -19,9 +19,17 @@ const TopSection = () => {
             />
             <Feather name="search" size={24} color={colors.black} />
         </View>
-        <Pressable style={styles.cartContainer}>
+        <Pressable 
+            onPress={() => setModalVisible(true)}
+            style={styles.cartContainer}>
             <Feather name='shopping-bag' size={24} color={colors.black} />
-            <Text style={styles.cartItemCount}>{cartItems.length === 0 ? '' : cartItems.length}</Text>
+            {
+                cartItems.length > 0 ? (
+                    <View style={styles.cartItemCountContainer}>
+                        <Text style={styles.cartItemCount}>{cartItems.length}</Text>
+                    </View>
+                ) : null
+            }
         </Pressable>
     </View>
   )
@@ -55,10 +63,20 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 22
     },
-    cartItemCount: {
+    cartItemCountContainer: {
         position: 'absolute',
-        top: 2,
-        right: 2,
-        color: colors.red
+        top: 0,
+        right: 0,
+        backgroundColor: colors.red,
+        height: 20,
+        width: 20,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    cartItemCount: {
+        fontSize: 13,
+        fontWeight: '400',
+        color: colors.plainWhite
     }
 })
