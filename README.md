@@ -34,6 +34,10 @@
     npm start
     ```
 
+## App Download Link
+
+[Download the app here](https://expo.dev/accounts/reason2020/projects/EcommerceTestRN/builds/4e2321e5-9100-42c8-9e02-cc9e5c7f383a)
+
 ## Author
 
 > Reason Shrestha
