@@ -16,6 +16,7 @@ export default function App() {
   const [ categoriesList, setCategoriesList ] = useState([])
   const [ filteredProducts, setFilteredProducts ] = useState([])
   const [ otherProducts, setOtherProducts ] = useState([])
+  const [ allProducts, setAllProducts ] = useState([])
   const [ isLoading, setIsLoading ] = useState(false)
   const [ errorText, setErrorText ] = useState('')
 
@@ -30,8 +31,9 @@ export default function App() {
       const popularProductsResponse = await getPopularProducts()
       const categoriesListResponse = await getAllCategoriesList()
       const otherProductsResponse = await getProductsInDescendingOrder()
+      const allProductsResponse = await getAllProducts()
 
-      if (!popularProductsResponse || !categoriesListResponse) {
+      if (!popularProductsResponse || !categoriesListResponse || !otherProductsResponse) {
         setErrorText('Failed to fetch products')
         return
       }
@@ -39,6 +41,7 @@ export default function App() {
       setPopularProducts(popularProductsResponse)
       setCategoriesList(categoriesListResponse)
       setOtherProducts(otherProductsResponse)
+      setAllProducts(allProductsResponse)
 
       setIsLoading(false)
     })()
@@ -73,7 +76,7 @@ export default function App() {
     <ScrollView style={[styles.container, { backgroundColor: lightMode ? colors.plainWhite : colors.black }]}>
       <StatusBar backgroundColor={lightMode ? colors.plainWhite : colors.black} barStyle={ lightMode ? 'dark-content' : 'light-content' } />
       <View style={styles.wrapper}>
-        <TopSection />
+        <TopSection items={allProducts} />
         <PopularItemsSection items={popularProducts} />
         <CategoriesList items={categoriesList} />
         <FilteredProductsList items={filteredProducts} />

@@ -1,13 +1,30 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useContext } from 'react'
+import { Pressable, StyleSheet, Text, TextInput, View, Alert, ToastAndroid, Modal, ScrollView, Button } from 'react-native'
+import React, { useContext, useState } from 'react'
 import { Feather } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import { CartContext } from '../contexts/CartContext';
+import ProductCard from './ProductCard';
+import { ThemeContext } from '../contexts/ThemeContext';
+import { isLightModeOn } from '../utils/isLightModeOn';
+import SearchModal from './SearchModal';
 
-const TopSection = ({ setModalVisible }) => {
+const TopSection = ({ items }) => {
+    const [ searchText, setSearchText ] = useState('')
+    const [ searchPerformed, setSearchPerformed ] = useState(false)
+    const [ searchResults, setSearchResults ] = useState([])
+
     const { cartItems } = useContext(CartContext)
 
     console.log(cartItems)
+
+    const searchProductByText = (text) => {
+        //filter items by search text and return
+        setSearchPerformed(true)
+        setSearchText('')
+        const searchResults = items.filter((item) => item?.title?.toLowerCase().includes(text.toLowerCase()))
+        console.log('Search Results: ', searchResults)
+        setSearchResults(searchResults)
+    }
 
   return (
     <View style={styles.container}>
@@ -16,11 +33,16 @@ const TopSection = ({ setModalVisible }) => {
                 style={styles.inputField}
                 placeholder='Search'
                 placeholderTextColor={colors.darkGray}
+                value={searchText}
+                onChangeText={(newSearchText) => setSearchText(newSearchText)}
             />
-            <Feather name="search" size={24} color={colors.black} />
+            <Pressable
+                onPress={() => searchProductByText(searchText)}>
+                <Feather name="search" size={24} color={colors.black} />
+            </Pressable>
         </View>
         <Pressable 
-            onPress={() => setModalVisible(true)}
+            onPress={() => ToastAndroid.showWithGravity('Cart Section is under maintenance', ToastAndroid.SHORT, ToastAndroid.BOTTOM)}
             style={styles.cartContainer}>
             <Feather name='shopping-bag' size={24} color={colors.black} />
             {
@@ -31,6 +53,13 @@ const TopSection = ({ setModalVisible }) => {
                 ) : null
             }
         </Pressable>
+        <Modal
+            animationType='slide'
+            transparent={false}
+            visible={searchPerformed}
+        >
+            <SearchModal items={searchResults} searchText={searchText} setSearchPerformed={setSearchPerformed} />
+        </Modal>
     </View>
   )
 }
